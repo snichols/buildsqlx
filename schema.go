@@ -33,6 +33,7 @@ const (
 	TypeJsonb        = "JSONB"
 	TypePoint        = "POINT"
 	TypePolygon      = "POLYGON"
+	TypeByteArray    = "BYTEA"
 )
 
 // specific for PostgreSQL driver + SQL std
@@ -370,6 +371,12 @@ func (t *Table) Numeric(colNm string, precision, scale uint64) *Table {
 // Decimal alias for Numeric as for PostgreSQL they are the same
 func (t *Table) Decimal(colNm string, precision, scale uint64) *Table {
 	return t.Numeric(colNm, precision, scale)
+}
+
+// Binary creates a byte array
+func (t *Table) Binary(colNm string) *Table {
+	t.columns = append(t.columns, &column{Name: colNm, ColumnType: colType(TypeByteArray)})
+	return t
 }
 
 // NotNull sets the last column to not null
